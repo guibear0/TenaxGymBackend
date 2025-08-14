@@ -9,6 +9,7 @@ export default function Landing() {
         <nav>
           <Link to="/login" className="btn-login">Iniciar Sesión</Link>
           <Link to="/register" className="btn-register">Registrarse</Link>
+          <Link to="/test" className="btn-test">Test de Conexión</Link>
         </nav>
       </header>
 
