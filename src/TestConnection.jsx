@@ -4,7 +4,7 @@ export default function TestConnection() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/ping')
+    fetch('https://tenaxgymbackend.onrender.com/api/ping')
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => console.error("Error:", err));
