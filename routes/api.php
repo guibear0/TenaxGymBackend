@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/api/ping', function () {
+Route::get('/ping', function () {
     return response()->json(['message' => 'pong']);
 });
 
