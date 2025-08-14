@@ -4,11 +4,19 @@ export default function TestConnection() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('https://tenaxgymbackend.onrender.com/api/ping')
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .catch((err) => console.error("Error:", err));
-  }, []);
+  fetch('http://127.0.0.1:8000/api/ping', {
+    method: "GET",
+    credentials: "include", // permite enviar cookies
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Error en la respuesta");
+      return res.json();
+    })
+    .then((data) => setData(data));
+}, []);
 
   return (
     <div>
