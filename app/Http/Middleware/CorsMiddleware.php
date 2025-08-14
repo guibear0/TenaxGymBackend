@@ -14,7 +14,7 @@ class CorsMiddleware
         $response = $next($request);
 
         // Solo permitir tu frontend
-        if (in_array($origin, ['http://localhost:5173', 'https://tenax-gym.vercel.app/'])) {
+        if (in_array($origin, ['http://localhost:5173', 'https://tenax-gym.vercel.app'])) {
             $response->headers->set('Access-Control-Allow-Origin', $origin);
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
