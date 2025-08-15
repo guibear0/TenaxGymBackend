@@ -14,13 +14,9 @@ Route::get('/ping', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user/dashboard', function (Request $request) {
-    return [
-        'name' => $request->user()->name,
-        'weight' => $request->user()->weight,
-        'height' => $request->user()->height,
-        'age' => $request->user()->age,
-    ];
+
+Route::middleware('auth')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
 
