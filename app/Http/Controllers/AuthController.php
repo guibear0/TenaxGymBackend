@@ -3,40 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\User;
+use Laravel\Sanctum\HasApiTokens;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-            'is_trainer' => 'boolean'
-        ]);
-
-        $validated['password'] = Hash::make($validated['password']);
-
-        $user = User::create($validated);
-
-        return response()->json(['message' => 'Usuario registrado con éxito', 'user' => $user], 201);
-    }
-
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        $credentials = $request->only('email', 'password');
 
         if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Credenciales incorrectas'], 401);
+            return response()->json(['message' => 'Credenciales inválidas'], 401);
         }
 
         $user = Auth::user();
-        return response()->json(['message' => 'Login correcto', 'user' => $user]);
+        
+
+        return response()->json([
+            'user' => $user
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Sesión cerrada']);
+    }
+
+    public function dashboard(Request $request)
+    {
+        return response()->json([
+            'name' => $request->user()->name,
+            'weight' => $request->user()->weight,
+            'height' => $request->user()->height,
+            'age' => $request->user()->age,
+        ]);
     }
 }
